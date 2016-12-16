@@ -2,6 +2,7 @@ package com.sikware.gameworld;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
+import com.sikware.gameobjects.Bird;
 
 /**
  * Created by adam pluth on 12/16/16.
@@ -9,18 +10,19 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class GameWorld {
 
-    private Rectangle rect = new Rectangle(0, 0, 17, 12);
+    private Bird bird;
 
-    public void update(float delta){
-        Gdx.app.log("GameWorld","update");
-        rect.x++;
-        if(rect.x > 137){
-            rect.x = 0;
-        }
+    public GameWorld(int midPoint){
+        //initialize bird
+        bird=new Bird(33, midPoint - 5, 17, 12);
     }
 
-    public Rectangle getRect(){
-        return rect;
+
+    public void update(float delta){
+        bird.update(delta);
+    }
+    public Bird getBird(){
+        return bird;
     }
 
 }
