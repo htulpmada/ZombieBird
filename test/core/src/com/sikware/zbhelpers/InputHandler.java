@@ -2,6 +2,7 @@ package com.sikware.zbhelpers;
 
 import com.badlogic.gdx.InputProcessor;
 import com.sikware.gameobjects.Bird;
+import com.sikware.gameworld.GameWorld;
 
 /**
  * Created by adam pluth on 12/16/16.
@@ -10,9 +11,11 @@ import com.sikware.gameobjects.Bird;
 public class InputHandler implements InputProcessor {
 
     private Bird myBird;
+    private GameWorld myWorld;
 
-    public InputHandler(Bird bird){
-        myBird=bird;
+    public InputHandler(GameWorld myWorld){
+        this.myWorld=myWorld;
+        myBird=myWorld.getBird();
     }
 
     @Override
@@ -32,7 +35,11 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if(myWorld.isReady()){
+            myWorld.start();
+        }
         myBird.onClick();
+        if(myWorld.isGameOver()||myWorld.isHightScore()){myWorld.restart();}
         return true;
     }
 

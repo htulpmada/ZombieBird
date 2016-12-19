@@ -1,5 +1,6 @@
 package com.sikware.gameobjects;
 
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
@@ -18,6 +19,8 @@ public class Pipe extends Scrollable {
     public static final int SKULL_WIDTH=24;
     public static final int SKULL_HEIGHT=11;
 
+    private boolean isScored = false;
+
     public Pipe(float x, float y, int width, int height, float scrollSpeed,float groundY) {
         super(x, y, width, height, scrollSpeed);
         r=new Random();
@@ -26,6 +29,16 @@ public class Pipe extends Scrollable {
         barUp=new Rectangle();
         barDown=new Rectangle();
         this.groundY=groundY;
+    }
+
+    public boolean collides(Bird bird){
+        if(position.x < bird.getX()){
+            return (Intersector.overlaps(bird.getBoundingCircle(), barUp)
+                    ||Intersector.overlaps(bird.getBoundingCircle(), barDown)
+                    ||Intersector.overlaps(bird.getBoundingCircle(), skullUp)
+                    ||Intersector.overlaps(bird.getBoundingCircle(), skullDown));
+        }
+        return false;
     }
 
     @Override
@@ -41,8 +54,16 @@ public class Pipe extends Scrollable {
     public void reset(float newX){
         super.reset(newX);
         height=r.nextInt(90)+15;
+        isScored=false;
     }
 
+    public void onRestart(float x, float scrollSpeed){
+        velocity.x=scrollSpeed;
+        reset(x);
+    }
+
+    public void setScored(boolean b){isScored=b;}
+    public boolean isScored(){return isScored;}
     public Rectangle getSkullUp(){return skullUp;}
     public Rectangle getSkullDown(){return skullDown;}
     public Rectangle getBarUp(){return barUp;}

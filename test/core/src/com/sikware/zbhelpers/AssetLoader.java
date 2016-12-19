@@ -1,9 +1,12 @@
 package com.sikware.zbhelpers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -12,6 +15,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
+    public static Preferences prefs;
+
     public static Texture texture;
     public static TextureRegion bg, grass;
 
@@ -19,6 +24,12 @@ public class AssetLoader {
     public static TextureRegion bird, birdDown, birdUp;
 
     public static TextureRegion skullUp, skullDown, bar;
+
+    public static Sound dead;
+    public static Sound flap;
+    public static Sound coin;
+
+    public static BitmapFont font, shadow;
 
     public static void load(){
 
@@ -51,10 +62,33 @@ public class AssetLoader {
         bar = new TextureRegion(texture, 136, 16, 22, 3);
         bar.flip(false, true);
 
+        dead=Gdx.audio.newSound(Gdx.files.internal("data/dead.wav"));
+        flap=Gdx.audio.newSound(Gdx.files.internal("data/flap.wav"));
+        coin=Gdx.audio.newSound(Gdx.files.internal("data/coin.wav"));
+
+        font = new BitmapFont(Gdx.files.internal("data/text.fnt"));
+        font.getData().setScale(.25f, -.25f);//added .getData() for updated api
+        shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
+        shadow.getData().setScale(.25f,-.25f);//added .getData() for updated api
+
+        prefs = Gdx.app.getPreferences("ZombieBird");
+        if(!prefs.contains("highScore")){prefs.putInteger("highScore", 0);}
+
     }
+
+    public static void setHighScore(int val){
+        prefs.putInteger("highScore",val);
+        prefs.flush();
+    }
+    public static int getHighScore(){return prefs.getInteger("highScore");}
 
     public static void dispose(){
         texture.dispose();
+        dead.dispose();
+        flap.dispose();
+        coin.dispose();
+        font.dispose();
+        shadow.dispose();
     }
 
 }

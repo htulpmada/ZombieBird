@@ -85,22 +85,62 @@ public class GameRenderer {
         drawPipes();
         batcher.enableBlending();
         drawSkulls();
+
         if(bird.shouldntFlap()) {
             batcher.draw(birdMid, bird.getX(), bird.getY(), bird.getWidth()/2.0f, bird.getHeight()/2.0f,bird.getWidth(), bird.getHeight(), 1, 1, bird.getRotation());
         }
         else{batcher.draw((TextureRegion) birdAnimation.getKeyFrame(runTime),bird.getX(), bird.getY(), bird.getWidth()/2.0f,bird.getHeight()/2.0f,bird.getWidth(),bird.getHeight(),1 , 1, bird.getRotation());}
 
+        if(myworld.isReady()){
+            AssetLoader.shadow.draw(batcher, "Touch me", (136/2) - (42), 76);
+            AssetLoader.font.draw(batcher, "Touch me", (136/2) - (42 - 1), 75);
+        }
+        else{
+            if(myworld.isGameOver()||myworld.isHightScore()){
+                if(myworld.isGameOver()){
+                    AssetLoader.shadow.draw(batcher, "GAME OVER", 25, 56);
+                    AssetLoader.font.draw(batcher, "GAME OVER", 24, 55);
+
+                    AssetLoader.shadow.draw(batcher, "High Score", 23, 106);
+                    AssetLoader.font.draw(batcher, "High Score", 22, 105);
+
+                    String highScore = AssetLoader.getHighScore()+"";
+
+                    AssetLoader.shadow.draw(batcher, highScore, (136/2)-(3*highScore.length()), 128);
+                    AssetLoader.font.draw(batcher, highScore, (136/2)-(3*highScore.length()-1), 127);
+                }
+                else{
+                    AssetLoader.shadow.draw(batcher, "High Score", 19, 56);
+                    AssetLoader.font.draw(batcher, "High Score", 18, 55);
+                }
+
+                AssetLoader.shadow.draw(batcher, "Try Again?", 23, 76);
+                AssetLoader.font.draw(batcher, "Try Again?", 24, 75);
+
+                String score = myworld.getScore()+"";
+
+                AssetLoader.shadow.draw(batcher, score, (136/2) - (3* score.length()),12);
+                AssetLoader.font.draw(batcher, score, (136/2) - (3* score.length()-1),11);
+            }
+        }
+
+        String score = myworld.getScore()+"";
+
+        AssetLoader.shadow.draw(batcher, ""+myworld.getScore(), (136/2)-(3*score.length()), 12);
+        AssetLoader.font.draw(batcher, ""+myworld.getScore(), (136/2)-(3*score.length()-1), 11);
+
         batcher.end();
+        /*
         shapeRenderer.begin(ShapeType.Filled);
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y,bird.getBoundingCircle().radius);
         //shapeRenderer.end();
 
 
-        /*
-         * Excuse the mess below. Temporary code for testing bounding
-         * rectangles.
-         */
+
+         // Excuse the mess below. Temporary code for testing bounding
+         // rectangles.
+
         // Bar up for pipes 1 2 and 3
         shapeRenderer.rect(pipe1.getBarUp().x, pipe1.getBarUp().y,
                 pipe1.getBarUp().width, pipe1.getBarUp().height);
@@ -134,7 +174,7 @@ public class GameRenderer {
                 pipe3.getSkullDown().width, pipe3.getSkullDown().height);
 
         shapeRenderer.end();
-
+*/
 
     }
 
