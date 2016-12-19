@@ -41,6 +41,13 @@ public class ScrollHandler {
         else if(backGrass.isScrolledLeft()){backGrass.reset(frontGrass.getTailX());}
     }
 
+    public void updateReady(float delta){
+        frontGrass.update(delta);
+        backGrass.update(delta);
+        if(frontGrass.isScrolledLeft()){frontGrass.reset(backGrass.getTailX());}
+        else if(backGrass.isScrolledLeft()){backGrass.reset(frontGrass.getTailX());}
+    }
+
     public void stop(){
         frontGrass.stop();
         backGrass.stop();
@@ -56,9 +63,9 @@ public class ScrollHandler {
             AssetLoader.coin.play();
         }
         else if(!pipe2.isScored()&&pipe2.getX()+(pipe2.getWidth()/2) < bird.getX() + bird.getWidth()){
-                addScore(1);
-                pipe2.setScored(true);
-                AssetLoader.coin.play();
+            addScore(1);
+            pipe2.setScored(true);
+            AssetLoader.coin.play();
 
         }
         else if(!pipe3.isScored()&&pipe3.getX()+(pipe3.getWidth()/2) < bird.getX() + bird.getWidth()) {
@@ -66,7 +73,7 @@ public class ScrollHandler {
             pipe3.setScored(true);
             AssetLoader.coin.play();
         }
-            return (pipe1.collides(bird)||pipe2.collides(bird)||pipe2.collides(bird));
+            return (pipe1.collides(bird)||pipe2.collides(bird)||pipe3.collides(bird));
     }
 
     public void onRestart(){

@@ -3,15 +3,15 @@ package com.sikware.zombiebird;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.sikware.screens.GameScreen;
+import com.sikware.screens.SplashScreen;
 import com.sikware.zbhelpers.AssetLoader;
 
 public class ZBGame extends Game {
 
 	@Override
 	public void create() {
-		Gdx.app.log("ZBGame","created");
 		AssetLoader.load();
-		setScreen(new GameScreen());
+		setScreen(new SplashScreen(this));
 	}
 
 	@Override
